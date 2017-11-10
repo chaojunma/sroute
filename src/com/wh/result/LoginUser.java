@@ -11,8 +11,6 @@ public class LoginUser implements Serializable {
 	
 	private Integer id;
 	
-	private String pwd;
-	
 	private String phone;
 	
 	private String token;
@@ -24,15 +22,6 @@ public class LoginUser implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-
-	public String getPwd() {
-		return pwd;
-	}
-
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
 	}
 
 	public String getPhone() {

@@ -2,6 +2,7 @@ package com.wh.cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.wh.constant.Constants;
 import com.wh.result.LoginUser;
 import com.wh.util.Md5Utils;
 import com.wh.util.ThreadTokenHolder;
@@ -23,7 +24,19 @@ public class Memory {
 		Element element = ehcache.get(key);
 		return element != null ? element.getValue() : null;
 	}
-
+	
+	public void setVertifyCode(String key, String value) {
+		Element element = ehcache.get(key);
+		if (element != null) {
+			// 根据key清空之前的验证码信息
+			ehcache.remove(key);
+			ehcache.remove(element.getValue());
+		}
+		
+		//重新将验证码放入缓存
+		ehcache.put(new Element(key, value, false, Constants.VERIFY_CODE_EXPIRE_TIME, 0));
+	}
+	
 	/**
 	 * 保存当前登录用户信息
 	 * 
@@ -38,9 +51,8 @@ public class Memory {
 		// 清空之前的登录信息
 		 clearLoginInfoBySeed(seed);
 		// 保存新的token和登录信息
-		int ttiExpiry = 30 * 60; // 过期时间为30分钟,转换成秒
-		ehcache.put(new Element(seed, token, false, ttiExpiry, 0));
-		ehcache.put(new Element(token, loginUser, false, ttiExpiry, 0));
+		ehcache.put(new Element(seed, token, false, Constants.TOKEN_EXPIRE_TIME, 0));
+		ehcache.put(new Element(token, loginUser, false, Constants.TOKEN_EXPIRE_TIME, 0));
 	}
 
 	/**

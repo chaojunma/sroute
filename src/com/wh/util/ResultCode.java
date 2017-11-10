@@ -13,6 +13,7 @@ public class ResultCode {
 
 	public static final ResultCode USERNAME_ERROR = new ResultCode(4001, "用户名或密码错误");
 	public static final ResultCode USER_EXIST = new ResultCode(4002, "手机号已注册");
+	public static final ResultCode VERIFY_CODE_ERROR = new ResultCode(4003, "验证码错误");
 	public Integer code;
 	public String message;
 	

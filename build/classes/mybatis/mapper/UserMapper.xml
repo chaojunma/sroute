@@ -3,7 +3,7 @@
 
 <mapper namespace="com.wh.mapper.UserMapper">
 	<select id="loginByPwd" parameterType="com.wh.param.LoginParam" resultType="com.wh.result.LoginUser">
-		select id, phone, pwd 
+		select id, phone
 		from user_info
 		where phone = #{phone} and pwd = #{pwd}
 	</select>

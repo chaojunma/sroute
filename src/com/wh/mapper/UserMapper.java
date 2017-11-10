@@ -16,9 +16,6 @@ public interface UserMapper {
 	//通过密码登录
 	public LoginUser loginByPwd(LoginParam param);
 	
-	//通过验证码登录
-	public LoginUser loginByVerifyCode(LoginParam param);
-	
 	//用户注册
 	public void insertUser(RegistParam param);
 	
