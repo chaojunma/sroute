@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop   
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd   
+	http://www.springframework.org/schema/beans   
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd   
+	http://www.springframework.org/schema/context   
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd   
+	http://www.springframework.org/schema/mvc   
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd   
+	http://www.springframework.org/schema/tx   
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+
+
+
+	<!--扫描base-pack下面或者子包下面的java文件，如果扫描到有@Component @Controller@Service等这些注解的类，则把这些类注册为bean -->
+	<context:component-scan base-package="com.wh.controller" />
+	<context:component-scan base-package="com.wh.service" />
+	<context:component-scan base-package="com.wh.cache" />
+	
+	<!-- 基于注解的拦截 -->
+	<mvc:interceptors>        
+        <bean class="com.wh.filter.TokenInterceptor" />
+    </mvc:interceptors>
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/html;charset=UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<!-- 配置前缀，即存放页面的位置，配置在/WEB-INF/目录下是为了隐藏文件，不可以直接通过地址进行访问 -->
+		<property name="suffix" value=".jsp" />
+		<!-- 配置后缀，即使用的视图 -->
+	</bean>
+
+
+</beans>
