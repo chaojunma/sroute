@@ -9,7 +9,6 @@ import com.wh.mapper.UserMapper;
 import com.wh.model.UserInfo;
 import com.wh.param.LoginParam;
 import com.wh.param.RegistParam;
-import com.wh.result.RegistResult;
 import com.wh.result.LoginUser;
 import com.wh.service.UserService;
 import com.wh.util.Md5Utils;
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Result regit(RegistParam param) {
 		Result result = null;
-		RegistResult data = new RegistResult();
+		LoginUser userInfo = new LoginUser();
 		if (param.getIsExist() == 1) { // 存在现金红包
 			Double amount = param.getAmount();
 			if (amount == null || !String.valueOf(amount).matches("^[-|+]?\\d+(.\\d{1})?$")) {
@@ -103,9 +102,12 @@ public class UserServiceImpl implements UserService {
 
 		param.setPwd(Md5Utils.getMd5(param.getPwd()));
 		userMapper.insertUser(param);
-		BeanUtils.copyProperties(param, data);
+		BeanUtils.copyProperties(param, userInfo);
+		
+		// 把用户信息保存到缓存
+		memory.saveLoginUser(userInfo);
 		result = new Result(ResultCode.SUCCESS);
-		result.setData(data);
+		result.setData(userInfo);
 		return result;
 	}
 
