@@ -34,7 +34,7 @@ public class Memory {
 		}
 		
 		//重新将验证码放入缓存
-		ehcache.put(new Element(key, value, false, Constants.VERIFY_CODE_EXPIRE_TIME, 0));
+		ehcache.put(new Element(key, value, false, Constants.VERIFY_CODE_EXPIRE_TIME, Constants.VERIFY_CODE_EXPIRE_TIME));
 	}
 	
 	/**
